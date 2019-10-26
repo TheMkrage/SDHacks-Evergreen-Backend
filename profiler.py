@@ -7,4 +7,3 @@ lp_wrapper = lp(temp.run)
 lp_wrapper()
 
 lp.print_stats()
-print("done")
