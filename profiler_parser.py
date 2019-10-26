@@ -60,6 +60,8 @@ def profile_and_parse(code) -> ProfilerOutput:
     raw_profile_encoded, _ = p.communicate()
     raw_profile = raw_profile_encoded.decode()
 
+    print(raw_profile)
+
     lines_raw = raw_profile.split("\n")
     total_time = 0
     found_lines = False

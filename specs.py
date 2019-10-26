@@ -13,4 +13,4 @@ spec_dic["m5.large"] = [2, 3.1, 8]
 spec_dic["m5d.metal"] = [96, 3.1, 384]
 
 spec_dic["m4.large"] = [2, 2.4, 8]
-spec_dic["m5d.metal"] = [64, 2.4, 256]
+spec_dic["m4d.metal"] = [64, 2.4, 256]

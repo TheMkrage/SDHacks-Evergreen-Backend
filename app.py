@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from profiler_parser import profile_and_parse
-from energyConsumed import CO2e
+from energyConsumed import CO2e, metric
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -21,12 +21,28 @@ def pounds():
     requests_per_day = int(form["requests_per_day"])
     inst_name = form["inst_name"]
 
+    print(code)
+    print(requests_per_day)
+    print(inst_name)
+
     profiler_output = profile_and_parse(code)
+    print(profiler_output)
     pounds = CO2e(profiler_output.total_time, requests_per_day, inst_name)
 
     response = {}
     response["pounds"] = pounds
     return jsonify(response)
+
+
+@app.route("/metrics", methods=["GET"])
+def getMetrics():
+    pounds = float(request.args.get('pounds'))
+    metrics = metric(pounds)
+
+    response = {}
+    response["impacts"] = metrics
+    return jsonify(response)
+
 
 if __name__ == "__main__":
     CORS(app, resources={r"/*": {"origins": "*"}})
