@@ -27,3 +27,14 @@ def CO2e(time_per_request, num_req, inst_name):
 	total_power  = calculate_power(total_time, inst_name)
 	carbon_emit = 0.954 * total_power
 	return carbon_emit
+	
+def metric(CO2):
+	american_life_year = 36156
+	NY_SF = 1984
+	car_lifetime = 126000
+
+	num_life = round(CO2 / american_life_year)
+	num_flight = round(CO2 / NY_SF)
+	num_car = round(CO2 / car_lifetime, 2)
+
+	return [num_life, num_flight, num_car]
