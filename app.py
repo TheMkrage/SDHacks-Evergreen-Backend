@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
+from profiler_parser import profile_and_parse
+from energyConsumed import CO2e
+
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -14,12 +17,15 @@ def after_request(response):
 @app.route("/pounds", methods=["POST"])
 def pounds():
     form = request.get_json(force=True)
-    print(form)
     code = form["code"]
-    requests_per_day = form["requests_per_day"]
+    requests_per_day = int(form["requests_per_day"])
+    inst_name = form["inst_name"]
+
+    profiler_output = profile_and_parse(code)
+    pounds = CO2e(profiler_output.total_time, requests_per_day, inst_name)
 
     response = {}
-    response["pounds"] = 0 # TODO: alfredo(code, requests_per_day)
+    response["pounds"] = pounds # TODO: alfredo(code, requests_per_day)
     return jsonify(response)
 
 if __name__ == "__main__":
