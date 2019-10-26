@@ -25,7 +25,7 @@ def pounds():
     pounds = CO2e(profiler_output.total_time, requests_per_day, inst_name)
 
     response = {}
-    response["pounds"] = pounds # TODO: alfredo(code, requests_per_day)
+    response["pounds"] = pounds
     return jsonify(response)
 
 if __name__ == "__main__":

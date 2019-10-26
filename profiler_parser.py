@@ -91,7 +91,7 @@ def profile_and_parse(code) -> ProfilerOutput:
             # Add more space till we have a list where index i can be the line info for i = line_num
             while len(lines) < line_num + 1:
                 lines.append(None)
-            lines[line_num] = Line(line_num, hits, time, time_per_hit, time_percent, content, indents) # TODO: implement indent level
+            lines[line_num] = Line(line_num, hits, time, time_per_hit, time_percent, content, indents)
             continue
 
         if "Total time: " in line:
