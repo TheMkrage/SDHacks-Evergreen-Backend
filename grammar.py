@@ -1,3 +1,5 @@
+from profiler_parser import Line
+
 tokens = set()
 tokens.add("if")
 tokens.add("len(")
@@ -118,7 +120,7 @@ def extract_values(krager_line):
 	time_per_hit = krager_line.time_per_hit
 	time_percent = krager_line.time_percent
 	content = krager_line.content
-	indents = krager_line.indents
+	indents = krager_line.indent_level
 
 	return((line_num, hits, time, time_per_hit, time_percent, content, indents))
 
@@ -126,7 +128,7 @@ def from_profile(list_of_lines):
 	suggestions = []
 
 	for i, line in enumerate(list_of_lines):
-		line_num, hits, time, time_per_hit, time_percent, content, indents = extract_values(krager_line)
+		line_num, hits, time, time_per_hit, time_percent, content, indents = extract_values(line)
 
 		if "for" in content:
 			first_line = line_num
@@ -135,10 +137,10 @@ def from_profile(list_of_lines):
 			multiline.append(content)
 
 			j = i + 1
-			while( line[6] < list_of_lines[j][6]):
-				print(j)
-				print(list_of_lines[j][6])
-				multiline.append(list_of_lines[j][5])
+			while( indents < list_of_lines[j].indent_level):
+				# print(j)
+				# print(list_of_lines[j][6])
+				multiline.append(list_of_lines[j].content)
 				j += 1
 				last_line = j
 			full_line = " ".join(multiline)
@@ -161,12 +163,12 @@ def from_profile(list_of_lines):
 
 	return suggestions
 
-# test = [
-# [1, 2, 3, 4, 5, "if len(A) == 0:", 2],
-# [2, 2, 3, 4, 5, "s = ''", 2],
-# [3, 2, 3, 4, 5, "for substring in list:", 2],
-# [4, 2, 3, 4, 5, "s += substring", 3],
-# [5, 2, 3, 4, 5, "if len(A) == 0:", 2]
-# ]
+test = [
+Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
+Line(2, 2, 3, 4, 5, "s = ''", 2),
+Line(3, 2, 3, 4, 5, "for substring in list:", 2),
+Line(4, 2, 3, 4, 5, "s += substring", 3),
+Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2)
+]
 
-# print(from_profile(test))	
+print(from_profile(test))	
