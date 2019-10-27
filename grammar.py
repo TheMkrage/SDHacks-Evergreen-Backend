@@ -111,11 +111,22 @@ def add_indents(sugg, indents):
 	# sugg = new_string
 	return sugg
 
+def extract_values(krager_line):
+	line_num = krager_line.line_num
+	hits = krager_line.hits
+	time = krager_line.time
+	time_per_hit = krager_line.time_per_hit
+	time_percent = krager_line.time_percent
+	content = krager_line.content
+	indents = krager_line.indents
+
+	return((line_num, hits, time, time_per_hit, time_percent, content, indents))
+
 def from_profile(list_of_lines):
 	suggestions = []
 
 	for i, line in enumerate(list_of_lines):
-		line_num, hits, time, time_per_hit, time_percent, content, indents = line
+		line_num, hits, time, time_per_hit, time_percent, content, indents = extract_values(krager_line)
 
 		if "for" in content:
 			first_line = line_num
@@ -150,12 +161,12 @@ def from_profile(list_of_lines):
 
 	return suggestions
 
-test = [
-[1, 2, 3, 4, 5, "if len(A) == 0:", 2],
-[2, 2, 3, 4, 5, "s = ''", 2],
-[3, 2, 3, 4, 5, "for substring in list:", 2],
-[4, 2, 3, 4, 5, "s += substring", 3],
-[5, 2, 3, 4, 5, "if len(A) == 0:", 2]
-]
+# test = [
+# [1, 2, 3, 4, 5, "if len(A) == 0:", 2],
+# [2, 2, 3, 4, 5, "s = ''", 2],
+# [3, 2, 3, 4, 5, "for substring in list:", 2],
+# [4, 2, 3, 4, 5, "s += substring", 3],
+# [5, 2, 3, 4, 5, "if len(A) == 0:", 2]
+# ]
 
-print(from_profile(test))	
+# print(from_profile(test))	
