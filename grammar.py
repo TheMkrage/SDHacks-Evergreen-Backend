@@ -128,6 +128,8 @@ def improve_suggestion(sugg):
 	sugg = sugg.replace("( ","(")
 	sugg = sugg.replace(" )",")")
 	sugg = sugg.replace(" :",":")
+	sugg = sugg.replace("\t","    ")
+
 	return sugg
 def from_profile(list_of_lines):
 	suggestions = []
@@ -174,13 +176,13 @@ def from_profile(list_of_lines):
 
 	return suggestions
 
-test = [
-Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
-Line(2, 2, 3, 4, 5, "s = ''", 2),
-Line(3, 2, 3, 4, 5, "for substring in list:", 2),
-Line(4, 2, 3, 4, 5, "s += substring", 3),
-Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
-Line(6, 2, 3, 4, 5, "def run()", 2)
-]
+# test = [
+# Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
+# Line(2, 2, 3, 4, 5, "s = ''", 2),
+# Line(3, 2, 3, 4, 5, "for substring in list:", 2),
+# Line(4, 2, 3, 4, 5, "s += substring", 3),
+# Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
+# Line(6, 2, 3, 4, 5, "def run()", 2)
+# ]
 
-print(from_profile(test))
+# print(from_profile(test))
