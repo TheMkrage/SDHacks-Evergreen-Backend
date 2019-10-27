@@ -156,7 +156,7 @@ def from_profile(list_of_lines):
 
 			print(full_line)
 			sugg = grammar_on_line(full_line, first_line, last_line)
-			if(content != " ".join(sugg)):
+			if(content.replace(" ", "") != " ".join(sugg).replace(" ", "")):
 				sugg = " ".join(sugg)
 				sugg = add_indents(sugg, indents)
 				sugg = improve_suggestion(sugg)
