@@ -11,12 +11,17 @@ tokens.add("for")
 tokens.add("in")
 tokens.add("+=")
 tokens.add("''.join(")
-tokens.add("''.jjoin(")
 tokens.add("=")
+tokens.add("while")
+tokens.add("<")
+tokens.add(">")
+tokens.add("list_length")
+tokens.add("\n")
 
 rules = {}
 rules["if len( var_0 ) == var_1 :"] = ['if', 0, ":"]
 rules["for var_0 in var_1 : var_2 += var_3"] = [2, "=", "''.join(", 1, ")"]
+rules["while var_0 < len( var_1 ) :"] = ["list_length", "=", "len(", 1,')','\n', 'while',0, "<", "list_length", ":"]
 
 def fix_pattern(line, fix):
 
@@ -46,7 +51,7 @@ def space_parens(code_str):
 		else:
 			spaced += char
 	spaced.replace("  ", " ")
-	print(spaced)
+	# print(spaced)
 	return spaced
 
 def tokenize(token_list):
@@ -72,7 +77,7 @@ def grammar_on_line(code_str, first_line, last_line):
 
 	if(tokenized_str in rules.keys()):
 		token_list = fix_pattern(token_list, rules[tokenized_str])
-	print(tokenized_str)
+	# print(tokenized_str)
 	return(token_list)
 
 # print(grammar_on_line("if len(A) == 0:"))
@@ -154,21 +159,30 @@ def from_profile(list_of_lines):
 				last_line = j
 			full_line = " ".join(multiline)
 
-			print(full_line)
+			# print(full_line)
 			sugg = grammar_on_line(full_line, first_line, last_line)
 
 			a = full_line
 			b =  " ".join(sugg)
 
 			if([c for c in a if c.isalpha()] != [c for c in b if c.isalpha()]):
-				print([c for c in a if c.isalpha()], [c for c in b if c.isalpha()])
+				# print([c for c in a if c.isalpha()], [c for c in b if c.isalpha()])
 				sugg = " ".join(sugg)
 				sugg = add_indents(sugg, indents)
 				sugg = improve_suggestion(sugg)
 				suggestions.append((sugg, first_line, last_line-1)) # minus for quick fix
 
 
-			pass
+		elif("while" in content):
+			sugg = grammar_on_line(content, line_num, line_num)
+			sugg = " ".join(sugg)
+			print(content)
+			if(content.replace(" ", "") != sugg.replace(" ", "")):
+				sugg = "\t"*indents + sugg
+				next_line = '\n' + "\t"*indents
+				sugg = sugg.replace('\n', next_line)
+				sugg = improve_suggestion(sugg)
+				suggestions.append((sugg, line_num, line_num+1))
 		else:
 			# single line case
 			sugg = grammar_on_line(content, line_num, line_num)
@@ -187,7 +201,8 @@ Line(2, 2, 3, 4, 5, "s = ''", 2),
 Line(3, 2, 3, 4, 5, "for substring in list:", 2),
 Line(4, 2, 3, 4, 5, "s += substring", 3),
 Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
-Line(6, 2, 3, 4, 5, "def run()", 2)
+Line(6, 2, 3, 4, 5, "def run()", 2),
+Line(6, 2, 3, 4, 5, "while A < len(B):", 2)
 ]
 
 print(from_profile(test))
