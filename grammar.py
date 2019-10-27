@@ -162,7 +162,7 @@ def from_profile(list_of_lines):
 			# print(full_line)
 			sugg = grammar_on_line(full_line, first_line, last_line)
 
-			a = full_line
+			a = full_linegr
 			b =  " ".join(sugg)
 
 			if([c for c in a if c.isalpha()] != [c for c in b if c.isalpha()]):
@@ -170,7 +170,8 @@ def from_profile(list_of_lines):
 				sugg = " ".join(sugg)
 				sugg = add_indents(sugg, indents)
 				sugg = improve_suggestion(sugg)
-				suggestions.append((sugg, first_line, last_line-1)) # minus for quick fix
+				desc = "Using the .join function is a quicker way to concatenate a string."
+				suggestions.append((sugg, first_line, last_line-1, desc)) # minus for quick fix
 
 
 		elif("while" in content):
@@ -182,7 +183,8 @@ def from_profile(list_of_lines):
 				next_line = '\n' + "\t"*indents
 				sugg = sugg.replace('\n', next_line)
 				sugg = improve_suggestion(sugg)
-				suggestions.append((sugg, line_num, line_num+1))
+				desc = "You can save some time by saving the length instead of calculating it every time."
+				suggestions.append((sugg, line_num, line_num+1, desc))
 		else:
 			# single line case
 			sugg = grammar_on_line(content, line_num, line_num)
@@ -190,7 +192,8 @@ def from_profile(list_of_lines):
 			if(content.replace(" ", "") != sugg.replace(" ", "")):
 				sugg = "\t"*indents + sugg
 				sugg = improve_suggestion(sugg)
-				suggestions.append((sugg, line_num, line_num))
+				desc = "Treating a list as a boolean is quicker than trying to calcule it's length."
+				suggestions.append((sugg, line_num, line_num, desc))
 
 
 	return suggestions
