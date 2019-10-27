@@ -17,11 +17,13 @@ tokens.add("<")
 tokens.add(">")
 tokens.add("list_length")
 tokens.add("\n")
+tokens.add("while True:")
 
 rules = {}
 rules["if len( var_0 ) == var_1 :"] = ['if', 0, ":"]
 rules["for var_0 in var_1 : var_2 += var_3"] = [2, "=", "''.join(", 1, ")"]
 rules["while var_0 < len( var_1 ) :"] = ["list_length", "=", "len(", 1,')','\n', 'while',0, "<", "list_length", ":"]
+rules["while True:"] = "while 1:"
 
 def fix_pattern(line, fix):
 
@@ -174,11 +176,18 @@ def from_profile(list_of_lines):
 				desc = "Using the .join function is a quicker way to concatenate a string."
 				suggestions.append((sugg, first_line, last_line-1, desc)) # minus for quick fix
 
+		elif(content in tokens):
+			sugg = rules[content]
+			sugg = "\t"*indents + sugg
+			sugg = improve_suggestion(sugg)
+			desc = "Even though “while True” accomplishes the same thing, “while 1” is a single jump operation."
+			suggestions.append((sugg, line_num, line_num, desc))
+
 
 		elif("while" in content):
 			sugg = grammar_on_line(content, line_num, line_num)
 			sugg = " ".join(sugg)
-			print(content)
+			# print(content)
 			if(content.replace(" ", "") != sugg.replace(" ", "")):
 				sugg = "\t"*indents + sugg
 				next_line = '\n' + "\t"*indents
@@ -199,14 +208,15 @@ def from_profile(list_of_lines):
 
 	return suggestions
 
-# test = [
-# Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
-# Line(2, 2, 3, 4, 5, "s = ''", 2),
-# Line(3, 2, 3, 4, 5, "for substring in list:", 2),
-# Line(4, 2, 3, 4, 5, "s += substring", 3),
-# Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
-# Line(6, 2, 3, 4, 5, "def run()", 2),
-# Line(6, 2, 3, 4, 5, "while A < len(B):", 2)
-# ]
+test = [
+Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
+Line(2, 2, 3, 4, 5, "s = ''", 2),
+Line(3, 2, 3, 4, 5, "for substring in list:", 2),
+Line(4, 2, 3, 4, 5, "s += substring", 3),
+Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
+Line(6, 2, 3, 4, 5, "def run()", 2),
+Line(7, 2, 3, 4, 5, "while A < len(B):", 2),
+Line(7, 2, 3, 4, 5, "while True:", 2)
+]
 
-# print(from_profile(test))
+print(from_profile(test))
