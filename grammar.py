@@ -165,7 +165,7 @@ def from_profile(list_of_lines):
 				sugg = " ".join(sugg)
 				sugg = add_indents(sugg, indents)
 				sugg = improve_suggestion(sugg)
-				suggestions.append((sugg, first_line, last_line))
+				suggestions.append((sugg, first_line, last_line-1)) # minus for quick fix
 
 
 			pass
