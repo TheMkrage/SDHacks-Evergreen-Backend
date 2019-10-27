@@ -88,7 +88,7 @@ def profile_and_parse(code) -> ProfilerOutput:
                 content = " ".join(tokens[1:])
             else:
                 continue # continue if junk line
-            indents = code_lines[line_num - 1].count('\t')
+            indents = code_lines[line_num - 1].count('    ')
 
             # Add more space till we have a list where index i can be the line info for i = line_num
             while len(lines) < line_num + 1:
