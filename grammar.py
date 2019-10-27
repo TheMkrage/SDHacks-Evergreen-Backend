@@ -124,6 +124,11 @@ def extract_values(krager_line):
 
 	return((line_num, hits, time, time_per_hit, time_percent, content, indents))
 
+def improve_suggestion(sugg):
+	sugg = sugg.replace("( ","(")
+	sugg = sugg.replace(" )",")")
+	sugg = sugg.replace(" :",":")
+	return sugg
 def from_profile(list_of_lines):
 	suggestions = []
 
@@ -152,6 +157,7 @@ def from_profile(list_of_lines):
 			if(content != " ".join(sugg)):
 				sugg = " ".join(sugg)
 				sugg = add_indents(sugg, indents)
+				sugg = improve_suggestion(sugg)
 				suggestions.append((sugg, first_line, last_line))
 
 
@@ -162,7 +168,9 @@ def from_profile(list_of_lines):
 			sugg = " ".join(sugg)
 			if(content.replace(" ", "") != sugg.replace(" ", "")):
 				sugg = "\t"*indents + sugg
+				sugg = improve_suggestion(sugg)
 				suggestions.append((sugg, line_num, line_num))
+
 
 	return suggestions
 
