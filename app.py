@@ -30,22 +30,15 @@ def pounds():
     print(profiler_output)
     pounds = CO2e(profiler_output.total_time, requests_per_day, inst_name)
 
+    metrics = metric(pounds)
+
     suggestions = from_profile(profiler_output.lines)
     suggestions_dict = list(map(lambda x: { 'line': x[0], 'start': x[1], 'end': x[2] }, suggestions))
     print(suggestions)
     response = {}
+    response["impacts"] = metrics
     response["pounds"] = pounds
     response["suggestions"] = suggestions_dict
-    return jsonify(response)
-
-
-@app.route("/metrics", methods=["GET"])
-def getMetrics():
-    pounds = float(request.args.get('pounds'))
-    metrics = metric(pounds)
-
-    response = {}
-    response["impacts"] = metrics
     return jsonify(response)
 
 
