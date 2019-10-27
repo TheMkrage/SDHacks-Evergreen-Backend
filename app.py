@@ -31,11 +31,11 @@ def pounds():
     pounds = CO2e(profiler_output.total_time, requests_per_day, inst_name)
 
     suggestions = from_profile(profiler_output.lines)
-    suggestions_dict = map(lambda x: { line: x[0], start: x[1], end: x[2] })
+    suggestions_dict = list(map(lambda x: { line: x[0], start: x[1], end: x[2] }, suggestions))
     print(suggestions)
     response = {}
     response["pounds"] = pounds
-    respinse["suggestions"] = suggestions_dict
+    response["suggestions"] = suggestions_dict
     return jsonify(response)
 
 
