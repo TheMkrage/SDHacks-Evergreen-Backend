@@ -185,7 +185,7 @@ def from_profile(list_of_lines):
 				sugg = sugg.replace('\n', next_line)
 				sugg = improve_suggestion(sugg)
 				desc = "You can save some time by saving the length instead of calculating it every time."
-				suggestions.append((sugg, line_num, line_num+1, desc))
+				suggestions.append((sugg, line_num, line_num, desc))
 		else:
 			# single line case
 			sugg = grammar_on_line(content, line_num, line_num)
@@ -199,14 +199,14 @@ def from_profile(list_of_lines):
 
 	return suggestions
 
-test = [
-Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
-Line(2, 2, 3, 4, 5, "s = ''", 2),
-Line(3, 2, 3, 4, 5, "for substring in list:", 2),
-Line(4, 2, 3, 4, 5, "s += substring", 3),
-Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
-Line(6, 2, 3, 4, 5, "def run()", 2),
-Line(6, 2, 3, 4, 5, "while A < len(B):", 2)
-]
+# test = [
+# Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
+# Line(2, 2, 3, 4, 5, "s = ''", 2),
+# Line(3, 2, 3, 4, 5, "for substring in list:", 2),
+# Line(4, 2, 3, 4, 5, "s += substring", 3),
+# Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
+# Line(6, 2, 3, 4, 5, "def run()", 2),
+# Line(6, 2, 3, 4, 5, "while A < len(B):", 2)
+# ]
 
-print(from_profile(test))
+# print(from_profile(test))
