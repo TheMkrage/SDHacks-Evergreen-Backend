@@ -1,5 +1,6 @@
 def run():
-    A = []
-    if len(A) == 0:
-        pass
-    pass
+    s = ''
+    list = ['a', 'b', 'c']
+    s = ''.join(list)
+    return
+    

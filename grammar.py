@@ -18,9 +18,10 @@ tokens.add(">")
 tokens.add("list_length")
 tokens.add("\n")
 tokens.add("while True:")
+tokens.add("if not")
 
 rules = {}
-rules["if len( var_0 ) == var_1 :"] = ['if', 0, ":"]
+rules["if len( var_0 ) == var_1 :"] = ['if not', 0, ":"]
 rules["for var_0 in var_1 : var_2 += var_3"] = [2, "=", "''.join(", 1, ")"]
 rules["while var_0 < len( var_1 ) :"] = ["list_length", "=", "len(", 1,')','\n', 'while',0, "<", "list_length", ":"]
 rules["while True:"] = "while 1:"
@@ -180,7 +181,7 @@ def from_profile(list_of_lines):
 			sugg = rules[content]
 			sugg = "\t"*indents + sugg
 			sugg = improve_suggestion(sugg)
-			desc = "Even though “while True” accomplishes the same thing, “while 1” is a single jump operation."
+			desc = "Even though 'while True' accomplishes the same thing, 'while 1' is a single jump operation."
 			suggestions.append((sugg, line_num, line_num, desc))
 
 
@@ -193,7 +194,7 @@ def from_profile(list_of_lines):
 				next_line = '\n' + "\t"*indents
 				sugg = sugg.replace('\n', next_line)
 				sugg = improve_suggestion(sugg)
-				desc = "You can save some time by saving the length instead of calculating it every time."
+				desc = "Save some time by storing the length instead of recalculating each time."
 				suggestions.append((sugg, line_num, line_num, desc))
 		else:
 			# single line case
@@ -202,21 +203,21 @@ def from_profile(list_of_lines):
 			if(content.replace(" ", "") != sugg.replace(" ", "")):
 				sugg = "\t"*indents + sugg
 				sugg = improve_suggestion(sugg)
-				desc = "Treating a list as a boolean is quicker than trying to calcule it's length."
+				desc = "Treating a list as a boolean is quicker than trying to calculate it's length."
 				suggestions.append((sugg, line_num, line_num, desc))
 
 
 	return suggestions
 
-test = [
-Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
-Line(2, 2, 3, 4, 5, "s = ''", 2),
-Line(3, 2, 3, 4, 5, "for substring in list:", 2),
-Line(4, 2, 3, 4, 5, "s += substring", 3),
-Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
-Line(6, 2, 3, 4, 5, "def run()", 2),
-Line(7, 2, 3, 4, 5, "while A < len(B):", 2),
-Line(7, 2, 3, 4, 5, "while True:", 2)
-]
-
-print(from_profile(test))
+# test = [
+# Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
+# Line(2, 2, 3, 4, 5, "s = ''", 2),
+# Line(3, 2, 3, 4, 5, "for substring in list:", 2),
+# Line(4, 2, 3, 4, 5, "s += substring", 3),
+# Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
+# Line(6, 2, 3, 4, 5, "def run()", 2),
+# Line(7, 2, 3, 4, 5, "while A < len(B):", 2),
+# Line(7, 2, 3, 4, 5, "while True:", 2)
+# ]
+#
+# print(from_profile(test))

@@ -33,7 +33,7 @@ def pounds():
     metrics = metric(pounds)
 
     suggestions = from_profile(profiler_output.lines)
-    suggestions_dict = list(map(lambda x: { 'line': x[0], 'start': x[1], 'end': x[2] }, suggestions))
+    suggestions_dict = list(map(lambda x: { 'line': x[0], 'start': x[1], 'end': x[2], 'text': x[3] }, suggestions))
     print(suggestions)
     response = {}
     response["impacts"] = metrics
