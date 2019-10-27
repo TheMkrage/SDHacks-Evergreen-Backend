@@ -128,6 +128,8 @@ def from_profile(list_of_lines):
 	suggestions = []
 
 	for i, line in enumerate(list_of_lines):
+		if line is None:
+			continue
 		line_num, hits, time, time_per_hit, time_percent, content, indents = extract_values(line)
 
 		if "for" in content:
@@ -171,4 +173,4 @@ Line(4, 2, 3, 4, 5, "s += substring", 3),
 Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2)
 ]
 
-print(from_profile(test))	
+print(from_profile(test))

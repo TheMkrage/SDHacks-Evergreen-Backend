@@ -1,1 +1,2 @@
-toReturn = ''
+def run():
+	pass
