@@ -16,7 +16,7 @@ tokens.add("=")
 
 rules = {}
 rules["if len( var_0 ) == var_1 :"] = ['if', 0, ":"]
-rules["for var_0 in var_1 : var_2 += var_3"] = [2, "=", "''.jjoin(", 1, ")"]
+rules["for var_0 in var_1 : var_2 += var_3"] = [2, "=", "''.join(", 1, ")"]
 
 def fix_pattern(line, fix):
 
@@ -84,7 +84,7 @@ def add_indents(sugg, indents):
 		if(sugg_split[i] == ""):
 			new_sugg.append('\n')
 		elif(sugg_split[i-1] == ""):
-			new_sugg.append('\n')
+			new_sugg.append('\n'*indents)
 			new_sugg.append(sugg_split[i])
 		else:
 			new_sugg.append(sugg_split[i])
@@ -159,8 +159,9 @@ def from_profile(list_of_lines):
 		else:
 			# single line case
 			sugg = grammar_on_line(content, line_num, line_num)
-			if(content != " ".join(sugg)):
-				sugg = "\t"*indents + " ".join(sugg)
+			sugg = " ".join(sugg)
+			if(content.replace(" ", "") != sugg.replace(" ", "")):
+				sugg = "\t"*indents + sugg
 				suggestions.append((sugg, line_num, line_num))
 
 	return suggestions
@@ -170,7 +171,8 @@ Line(1, 2, 3, 4, 5, "if len(A) == 0:", 2),
 Line(2, 2, 3, 4, 5, "s = ''", 2),
 Line(3, 2, 3, 4, 5, "for substring in list:", 2),
 Line(4, 2, 3, 4, 5, "s += substring", 3),
-Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2)
+Line(5, 2, 3, 4, 5, "if len(A) == 0:", 2),
+Line(6, 2, 3, 4, 5, "def run()", 2)
 ]
 
 print(from_profile(test))
