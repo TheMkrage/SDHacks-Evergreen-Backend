@@ -31,7 +31,7 @@ def pounds():
     pounds = CO2e(profiler_output.total_time, requests_per_day, inst_name)
 
     suggestions = from_profile(profiler_output.lines)
-    suggestions_dict = list(map(lambda x: { line: x[0], start: x[1], end: x[2] }, suggestions))
+    suggestions_dict = list(map(lambda x: { 'line': x[0], 'start': x[1], 'end': x[2] }, suggestions))
     print(suggestions)
     response = {}
     response["pounds"] = pounds
