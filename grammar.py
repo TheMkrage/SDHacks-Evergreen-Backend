@@ -150,7 +150,7 @@ def from_profile(list_of_lines):
 			if(content != " ".join(sugg)):
 				sugg = " ".join(sugg)
 				sugg = add_indents(sugg, indents)
-				suggestions.append((sugg, line_num, line_num))
+				suggestions.append((sugg, first_line, last_line))
 
 
 			pass
